@@ -15,7 +15,19 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('customer', 255);
+            $table->string('phone', 255);
+            $table->timestamp('created_at', $precision = 0);
+            $table->timestamp('completed_at', $precision = 0);
+            $table->unsignedBigInteger('user_id'); // fk
+            $table->string('type');
+            $table->string('status'); // ? constraint content
+
+            $table
+                ->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
