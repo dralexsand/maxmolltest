@@ -17,10 +17,10 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('customer', 255);
             $table->string('phone', 255);
-            $table->timestamp('created_at', $precision = 0);
-            $table->timestamp('completed_at', $precision = 0);
-            $table->unsignedBigInteger('user_id'); // fk
-            $table->string('type');
+            $table->timestamp('created_at', $precision = 0); // range
+            $table->timestamp('completed_at', $precision = 0); // range +
+            $table->unsignedBigInteger('user_id'); // fk // random
+            $table->string('type');  // ? constraint content
             $table->string('status'); // ? constraint content
 
             $table

@@ -13,9 +13,13 @@ class Order extends Model
 {
     use HasFactory;
 
+    public const ORDER_STATUSES = ['active', 'completed', 'canceled'];
+    public const ORDER_TYPES = ['online', 'offline'];
+
     protected $guarded = [];
 
     public $timestamps = false;
+
 
     /**
      * @return BelongsTo
@@ -41,4 +45,23 @@ class Order extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function getCreatedAtAttribute()
+    {
+        return date('Y-m-d H:i:s');
+    }
+
+    public function getCompletedAtAttribute()
+    {
+        return date('Y-m-d H:i:s');
+    }
+
+    public static function getOrderStatuses(): array
+    {
+        return self::ORDER_STATUSES;
+    }
+
+    public static function getOrderTypes(): array
+    {
+        return self::ORDER_TYPES;
+    }
 }

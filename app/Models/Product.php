@@ -12,7 +12,11 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'price',
+        'stock'
+    ];
 
     public $timestamps = false;
 
@@ -23,4 +27,5 @@ class Product extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
 }
