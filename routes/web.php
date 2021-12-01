@@ -14,24 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
-
-Route::get('/', [OrderController::class, 'index'])->name('index');
-
-/*Route::get('/', function () {
-    return view('pages.orders.index');
-});*/
-
-Route::get('/create', function () {
-    return view('pages.orders.form');
 });
 
-Route::get('/edit', function () {
-    return view('pages.orders.form');
+Route::prefix('orders')->name('orders.')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+
+    Route::get('/edit/{id}', [OrderController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [OrderController::class, 'update'])->name('update');
+
+    Route::get('/create', [OrderController::class, 'create'])->name('create');
+    Route::post('/store', [OrderController::class, 'store'])->name('store');
+
+    Route::delete('/delete/{id}', [OrderController::class, 'destroy'])->name('delete');
 });
 
-Route::get('/report', function () {
-    return view('pages.orders.report');
-});

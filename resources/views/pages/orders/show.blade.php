@@ -9,9 +9,7 @@
 
 @section('content')
     <h1>Create Order</h1>
-    @include('components.errors')
-    @include('components.btn_home')
-    @include('components.order_create_form')
+    <hr>
 @endsection
 
 @section('footerScripts')

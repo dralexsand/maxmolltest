@@ -9,7 +9,9 @@
 
 @section('content')
     <h1>Edit Order</h1>
-    <hr>
+    @include('components.errors')
+    @include('components.btn_home')
+    @include('components.order_edit_form')
 @endsection
 
 @section('footerScripts')

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -17,18 +19,8 @@ class OrderController extends Controller
         $orders = OrderItem::with('order', 'product')
             ->paginate(10);
 
-        $pagination = [
-            'total' => $orders->total,
-            'lastPage' => $orders->lastPage,
-            'perPage' => $orders->perPage,
-            'currentPage' => $orders->currentPage,
-            'pageName' => $orders->pageName,
-            'path' => $orders->path,
-        ];
-
         return view('pages.orders.index', [
             'orders' => $orders,
-            'pagination' => $pagination,
         ]);
     }
 
@@ -39,7 +31,15 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $types = Order::getOrderTypes();
+        $statuses = Order::getOrderStatuses();
+        $users = User::get();
+
+        return view('pages.orders.create', [
+            'types' => $types,
+            'statuses' => $statuses,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -50,7 +50,25 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*$request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+        ]);*/
+
+        $request_clean = $request->all();
+
+        $order = Order::create([
+            'customer' => $request_clean['customer'],
+            'phone' => $request_clean['phone'],
+            'user_id' => $request_clean['user_id'],
+            'type' => $request_clean['type'],
+            'status' => $request_clean['status'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'completed_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()->route('orders.edit', $order->id)
+            ->with('success', 'Order updated successfully.');
     }
 
     /**
@@ -61,7 +79,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = OrderItem::whereIn('order_id', [$id])
+            ->with('order', 'product')
+            ->get();
+
+        return view('pages.orders.show', [
+            'order' => $order
+        ]);
     }
 
     /**
@@ -70,9 +94,22 @@ class OrderController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        //
+        $order = OrderItem::whereIn('order_id', [$id])
+            ->with('order', 'product')
+            ->get();
+
+        $types = Order::getOrderTypes();
+        $statuses = Order::getOrderStatuses();
+        $users = User::get();
+
+        return view('pages.orders.edit', [
+            'order' => $order[0],
+            'types' => $types,
+            'statuses' => $statuses,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -82,9 +119,27 @@ class OrderController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        /*$request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+        ]);*/
+
+        $request_clean = $request->all();
+
+        Order::where('id', $id)
+            ->update([
+                'customer' => $request_clean['customer'],
+                'phone' => $request_clean['phone'],
+                'user_id' => $request_clean['user_id'],
+                'type' => $request_clean['type'],
+                'status' => $request_clean['status'],
+                'completed_at' => date('Y-m-d H:i:s'),
+            ]);
+
+        return redirect()->route('orders.edit', $id)
+            ->with('success', 'Order updated successfully.');
     }
 
     /**
@@ -93,8 +148,13 @@ class OrderController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, int $id)
     {
-        //
+        Order::findOrFail($id)->delete();
+
+        $page = $request->only('page')['page'];
+        $route = 'orders/?page=' . $page;
+
+        return redirect($route);
     }
 }

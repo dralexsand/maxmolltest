@@ -9,7 +9,6 @@
 
 @section('content')
     <h1>Form Order</h1>
-    <hr>
 
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Email address</label>

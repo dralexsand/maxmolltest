@@ -20,12 +20,5 @@ class Product extends Model
 
     public $timestamps = false;
 
-    /**
-     * @return BelongsTo
-     */
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class);
-    }
 
 }

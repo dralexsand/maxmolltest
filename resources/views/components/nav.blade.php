@@ -12,16 +12,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/orders">
+                       Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/create">Create</a>
+                    <a class="nav-link" href="/orders/create">
+                        Create Order
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/edit">Edit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/report">Report</a>
+                    <a class="nav-link" href="/orders/report">
+                        Report
+                    </a>
                 </li>
             </ul>
         </div>

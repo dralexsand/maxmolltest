@@ -15,7 +15,7 @@
         crossorigin="anonymous">
 
     @section('headerScripts')
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @show
 
 </head>
