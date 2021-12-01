@@ -50,10 +50,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        /*$request->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);*/
+        $request->validate([
+            'customer' => 'required',
+            'phone' => 'required',
+            'user_id' => 'required',
+            'type' => 'required',
+            'status' => 'required',
+        ]);
 
         $request_clean = $request->all();
 
@@ -77,7 +80,7 @@ class OrderController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $order = OrderItem::whereIn('order_id', [$id])
             ->with('order', 'product')
@@ -121,10 +124,13 @@ class OrderController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        /*$request->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);*/
+        $request->validate([
+            'customer' => 'required',
+            'phone' => 'required',
+            'user_id' => 'required',
+            'type' => 'required',
+            'status' => 'required',
+        ]);
 
         $request_clean = $request->all();
 
